@@ -11,14 +11,14 @@
     <header class="gallery-header">
       <h1>Memory Gallery</h1>
       <div class="controls">
-        <label for="music-selector">Select Music:</label>
-        <select id="music-selector">
-          <option value="song1.mp3">Song 1</option>
-          <option value="song2.mp3">Song 2</option>
-          <option value="song3.mp3">Song 3</option>
-        </select>
+        <label for="music-upload">Upload Music:</label>
+        <input type="file" id="music-upload" accept="audio/*">
         <button id="play-music">Play</button>
         <button id="pause-music">Pause</button>
+
+        <label for="image-upload">Upload Image:</label>
+        <input type="file" id="image-upload" accept="image/*">
+        <button id="add-image">Add Image</button>
       </div>
     </header>
     <div class="gallery-content" id="gallery-content"></div>
