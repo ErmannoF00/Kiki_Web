@@ -1,0 +1,58 @@
+body,
+p,
+#main,
+#canvas,
+#letter,
+#clock-box {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #ffe;
+  font: 14px/1.4 "微软雅黑", "宋体", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container {
+  text-align: center;
+}
+
+#password-container {
+  margin-top: 20px;
+  display: block;
+}
+
+#password-input {
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+#enter-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.loading {
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+#error-message {
+  margin-top: 20px;
+  color: red;
+}
+
+.hidden {
+  display: none;
+}
+
+.model {
+  margin-bottom: 10px;
+}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Room</title>
+  <link rel="stylesheet" href="gameroom.css">
+</head>
+<body class="gameroom-page">
+  <div class="gameroom-container">
+    <h1>Game Room</h1>
+    <p>Choose a game to play with your friend:</p>
+    <div class="game-selection">
+      <button class="game-option" data-game="game1">Game 1</button>
+      <button class="game-option" data-game="game2">Game 2</button>
+      <button class="game-option" data-game="game3">Game 3</button>
+    </div>
+    <div id="selected-game">
+      <h2>Your Selection:</h2>
+      <p id="your-game">None</p>
+    </div>
+    <div id="friend-game">
+      <h2>Friend's Selection:</h2>
+      <p id="friend-game-status">Waiting for friend...</p>
+    </div>
+    <button id="start-game" style="display: none;">Start Game</button>
+  </div>
+  <script src="gameroom.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Gallery</title>
+  <link rel="stylesheet" href="gallery.css">
+</head>
+<body class="gallery-page">
+  <div class="gallery-container">
+    <header class="gallery-header">
+      <h1>Memory Gallery</h1>
+      <div class="controls">
+        <label for="music-selector">Select Music:</label>
+        <select id="music-selector">
+          <option value="song1.mp3">Song 1</option>
+          <option value="song2.mp3">Song 2</option>
+          <option value="song3.mp3">Song 3</option>
+        </select>
+        <button id="play-music">Play</button>
+        <button id="pause-music">Pause</button>
+      </div>
+    </header>
+    <div class="gallery-content" id="gallery-content"></div>
+    <div class="gallery-navigation">
+      <button id="prev-button">Previous</button>
+      <button id="next-button">Next</button>
+    </div>
+  </div>
+  <script src="gallery.js"></script>
+</body>
+</html>

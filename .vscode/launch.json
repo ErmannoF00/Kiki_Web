@@ -1,0 +1,30 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            // This configuration launches the website in Microsoft Edge
+            "type": "msedge", 
+            "request": "launch",
+            "name": "Launch Microsoft Edge with index.html",
+            "file": "${workspaceFolder}/index.html", 
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            // This configuration launches the website in Google Chrome
+            "type": "chrome", 
+            "request": "launch",
+            "name": "Launch Google Chrome with index.html",
+            "file": "${workspaceFolder}/index.html", 
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            // This configuration uses Live Server (if you prefer a local server)
+            "type": "chrome", 
+            "request": "launch",
+            "name": "Launch Live Server in Chrome",
+            "url": "http://127.0.0.1:5500/index.html", 
+            "webRoot": "${workspaceFolder}",
+            "sourceMaps": true
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Entry</title>
+    <link rel="stylesheet" href="home/home.css">
+</head>
+<body class="index-page">
+    <div class="container">
+        <h1 class="fancy-title">Welcome to Your Special Space</h1>
+        <p>Please enter the password to access the home.</p>
+
+        <!-- Password container -->
+        <div id="password-container" class="hidden">
+            <input type="password" id="password-input" placeholder="Enter password">
+            <button id="enter-button">Enter</button>
+            <div id="loading-icon" class="loading" style="display: none;">Loading...</div>
+        </div>
+
+        <!-- Error message -->
+        <div id="error-message" class="hidden">
+            <div class="model"></div>
+            <p>This is not your space. Try again, lover.</p>
+        </div>
+    </div>
+    <script src="home/home.js"></script>
+</body>
+</html>

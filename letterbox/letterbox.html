@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Letterbox</title>
+  <link rel="stylesheet" href="letterbox.css">
+</head>
+<body class="letterbox-page">
+  <div class="letterbox-container">
+    <header class="letterbox-header">
+      <h1>Write a Romantic Letter</h1>
+    </header>
+    <form id="letter-form">
+      <label for="letter-title">Title:</label>
+      <input type="text" id="letter-title" placeholder="Enter the title of your letter" required>
+
+      <label for="letter-content">Letter:</label>
+      <textarea id="letter-content" placeholder="Write your letter here..." required></textarea>
+
+      <button type="submit">Save Letter</button>
+    </form>
+    <div class="letter-list" id="letter-list">
+      <h2>Your Saved Letters</h2>
+      <ul></ul>
+    </div>
+  </div>
+  <script src="letterbox.js"></script>
+</body>
+</html>

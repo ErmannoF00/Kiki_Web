@@ -1,0 +1,63 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #e6f7ff;
+    margin: 0;
+    padding: 20px;
+  }
+  
+  .gameroom-container {
+    max-width: 600px;
+    margin: auto;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+  }
+  
+  h1 {
+    margin-bottom: 20px;
+  }
+  
+  .game-selection {
+    margin: 20px 0;
+  }
+  
+  .game-option {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .game-option:hover {
+    background-color: #218838;
+  }
+  
+  #selected-game, #friend-game {
+    margin-top: 20px;
+  }
+  
+  #start-game {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  #start-game:hover {
+    background-color: #0056b3;
+  }
+  
