@@ -1,9 +1,46 @@
+/* General Styling */
 body {
-  font-family: 'Arial', sans-serif;
-  background: linear-gradient(to bottom, #1e3c72, #2a5298);
+  font-family: 'Roboto', sans-serif;
+  background-color: #0c0c0c;
   color: white;
   margin: 0;
-  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Initial Music Player Section */
+#initial-player {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #282828;
+  text-align: center;
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+#initial-player button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background-color: #A4B7BE;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#initial-player button:hover {
+  background-color: #8FA4AC;
+}
+
+/* Gallery Section */
+#gallery {
+  display: none;
+  position: relative;
+  min-height: 100vh;
+  background: #0c0c0c;
 }
 
 .gallery-container {
@@ -15,84 +52,46 @@ body {
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
-.gallery-header {
-  background-color: #333;
-  text-align: center;
-  padding: 15px;
-}
-
-.controls {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin: 10px 0;
-}
-
-.controls select,
-.controls button {
-  background-color: #444;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.controls button:hover {
-  background-color: #666;
-}
-
 .gallery-content {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   height: 400px;
-  overflow: hidden;
 }
 
-.slideshow-image {
-  width: 100%;
-  height: auto;
+.gallery-content img {
+  max-width: 100%;
+  max-height: 100%;
   object-fit: cover;
   transition: transform 3s ease-in-out;
 }
 
-.slideshow-image.zoom {
-  transform: scale(1.1);
-}
-
-.gallery-navigation {
+/* Bottom Player */
+.bottom-player {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #1f1f1f;
+  padding: 10px;
   display: flex;
   justify-content: space-between;
-  padding: 15px;
-  background-color: #333;
+  align-items: center;
+  box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.5);
 }
 
-button {
-  background-color: #555;
-  color: white;
+.bottom-player .controls button {
+  background: none;
   border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
+  color: white;
+  font-size: 1.5rem;
   cursor: pointer;
 }
 
-button:hover {
-  background-color: #777;
+.progress-bar input {
+  width: 100%;
 }
 
-@media (max-width: 768px) {
-  .gallery-container {
-    padding: 10px;
-  }
-
-  .controls {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  button {
-    width: 100%;
-    margin: 5px 0;
-  }
+.volume input {
+  width: 80px;
 }

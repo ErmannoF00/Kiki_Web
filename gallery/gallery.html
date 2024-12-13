@@ -1,32 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Memory Gallery</title>
-  <link rel="stylesheet" href="gallery.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Music and Gallery</title>
+    <script src="https://kit.fontawesome.com/7d35781f0a.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Reem+Kufi&display=swap" rel="stylesheet">
+    <style>
+        /* General Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #0c0c0c;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Initial Music Player Section */
+        #initial-player {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #282828;
+            text-align: center;
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        #initial-player.hidden {
+            opacity: 0;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        #initial-player h1 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+        }
+
+        #initial-player .player {
+            width: 90%;
+            max-width: 300px;
+            padding: 1.5rem;
+            background: #EBEBEB;
+            box-shadow: 20px 20px 60px #c8c8c8, -20px -20px 60px #ffffff;
+            border-radius: 15px;
+        }
+
+        #initial-player button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            background-color: #A4B7BE;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        #initial-player button:hover {
+            background-color: #8FA4AC;
+        }
+
+        #music-upload {
+            margin-top: 10px;
+        }
+
+        /* Gallery Section */
+        #gallery {
+            display: none;
+            position: relative;
+            min-height: 100vh;
+            background: #0c0c0c;
+            color: white;
+        }
+
+        #gallery.active {
+            display: block;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        #container {
+            position: relative;
+            height: 300px;
+            margin: 2rem auto;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            transition: transform 1s ease-in-out;
+        }
+
+        .slide img {
+            width: 50%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .title {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            color: white;
+            font-family: 'Reem Kufi', sans-serif;
+            font-size: 2em;
+        }
+
+        /* Bottom Music Player */
+        .bottom-player {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #1f1f1f;
+            padding: 10px;
+            box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .bottom-player .controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .bottom-player .controls button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .bottom-player .progress-bar {
+            flex-grow: 1;
+            margin: 0 10px;
+        }
+
+        .progress-bar input {
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .bottom-player .volume {
+            display: flex;
+            align-items: center;
+        }
+
+        .volume input {
+            width: 80px;
+        }
+
+        /* Mobile Styling */
+        @media (max-width: 768px) {
+            button {
+                font-size: 1rem;
+                padding: 12px 16px;
+            }
+        }
+    </style>
 </head>
-<body class="gallery-page">
-  <div class="gallery-container">
-    <header class="gallery-header">
-      <h1>Memory Gallery</h1>
-      <div class="controls">
-        <label for="music-upload">Upload Music:</label>
+<body>
+    <!-- Initial Player -->
+    <div id="initial-player">
+        <h1>Choose the song for this collection</h1>
         <input type="file" id="music-upload" accept="audio/*">
         <button id="play-music">Play</button>
         <button id="pause-music">Pause</button>
-
-        <label for="image-upload">Upload Image:</label>
-        <input type="file" id="image-upload" accept="image/*">
-        <button id="add-image">Add Image</button>
-      </div>
-    </header>
-    <div class="gallery-content" id="gallery-content"></div>
-    <div class="gallery-navigation">
-      <button id="prev-button">Previous</button>
-      <button id="next-button">Next</button>
+        <button id="start-gallery">Play & View Collection</button>
     </div>
-  </div>
-  <script src="gallery.js"></script>
+
+    <!-- Gallery Section -->
+    <div id="gallery">
+        <div id="container">
+            <div class="slide">
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/544318/forest-left.jpg" alt="Forest Left">
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/544318/forest-right.jpg" alt="Forest Right">
+                <p class="title">Forest</p>
+            </div>
+            <div class="slide hidden">
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/544318/mountain-left.jpg" alt="Mountain Left">
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/544318/mountain-right.jpg" alt="Mountain Right">
+                <p class="title">Mountain</p>
+            </div>
+        </div>
+        <div class="bottom-player">
+            <div class="controls">
+                <button><i class="fas fa-step-backward"></i></button>
+                <button><i class="fas fa-pause"></i></button>
+                <button><i class="fas fa-step-forward"></i></button>
+            </div>
+            <div class="progress-bar">
+                <input type="range" min="0" max="100" value="50">
+            </div>
+            <div class="volume">
+                <i class="fas fa-volume-down"></i>
+                <input type="range" min="0" max="100" value="75">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const playMusicButton = document.getElementById("play-music");
+            const pauseMusicButton = document.getElementById("pause-music");
+            const startButton = document.getElementById("start-gallery");
+            const musicUpload = document.getElementById("music-upload");
+            const initialPlayer = document.getElementById("initial-player");
+            const gallery = document.getElementById("gallery");
+
+            let music = new Audio();
+            let musicPlaying = false;
+
+            // Handle Music Upload
+            musicUpload.addEventListener("change", (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    const audioURL = URL.createObjectURL(file);
+                    music.src = audioURL;
+                    music.load(); // Ensure the audio file is loaded
+                    console.log("Generated audio URL:", audioURL);
+                    alert(`Song "${file.name}" selected.`);
+                } else {
+                    alert('Please select an audio file.');
+                }
+            });
+
+            // Play Music
+            playMusicButton.addEventListener("click", () => {
+                if (music.src) {
+                    music.play().catch(err => {
+                        console.error('Error playing audio:', err);
+                        alert('Error playing audio. Please check the file format.');
+                    });
+                    musicPlaying = true;
+                } else {
+                    alert('No song selected!');
+                }
+            });
+
+            // Pause Music
+            pauseMusicButton.addEventListener("click", () => {
+                if (musicPlaying) {
+                    music.pause();
+                    musicPlaying = false;
+                }
+            });
+
+            // Start Gallery
+            startButton.addEventListener("click", () => {
+                if (music.src) {
+                    initialPlayer.classList.add('hidden');
+                    setTimeout(() => {
+                        initialPlayer.style.display = 'none';
+                        gallery.classList.add('active');
+                    }, 1000);
+                } else {
+                    alert('Please select a song before starting the gallery!');
+                }
+            });
+        });
+    </script>
 </body>
 </html>

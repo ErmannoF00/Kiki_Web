@@ -1,104 +1,54 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Check if the password container exists and show it if needed
-    const passwordContainer = document.getElementById('password-container');
-    if (passwordContainer) {
-        passwordContainer.style.display = 'block'; // Show the password container by default
-        console.log('Password container is now visible');
-    } else {
-        console.error('Password container not found.');
-    }
+    const passwordInput = document.getElementById("password-input");
+    const enterButton = document.getElementById("enter-button");
+    const errorMessage = document.getElementById("error-message");
+    const loadingIcon = document.getElementById("loading-icon");
 
-    // Login form logic
-    const loginForm = document.getElementById("login-form");
-    const usernameInput = document.getElementById("username");
-    const passwordInput = document.getElementById("password");
+    // Validate Password Function
+    const validatePassword = () => {
+        const password = passwordInput.value.trim();
+        if (password === "dioporco") {
+            loadingIcon.classList.remove("hidden"); // Show loading icon
 
-    if (loginForm) {
-        loginForm.addEventListener("submit", (event) => {
-            event.preventDefault();
+            // Simulate a delay to show loading
+            setTimeout(() => {
+                displayHomeContent(); // Once validated, show the next content
+            }, 1500); // Show home content after 1.5 seconds
+        } else {
+            // Incorrect password, show error message
+            errorMessage.classList.remove("hidden");
+            setTimeout(() => {
+                errorMessage.classList.add("hidden"); // Hide error after 3 seconds
+            }, 3000);
+        }
+    };
 
-            // Example login validation logic
-            const username = usernameInput.value;
-            const password = passwordInput.value;
+    // Enter Button Click Event
+    enterButton.addEventListener("click", validatePassword);
 
-            if (username === "correctUsername" && password === "correctPassword") {
-                // Set a flag in local storage indicating the user is logged in
-                localStorage.setItem("loggedIn", "true");
-
-                // Hide the password form and show home content after successful login
-                if (passwordContainer) {
-                    passwordContainer.style.display = 'none'; // Hide after login
-                    console.log('Password container hidden.');
-                }
-
-                displayHomeContent();
-            } else {
-                alert("Invalid username or password. Please try again.");
-            }
-        });
-    } else {
-        console.error('Login form not found.');
-    }
+    // "Enter" Key Submission
+    passwordInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") validatePassword();
+    });
 });
 
-// Function to display home content
+// Display Home Content
 function displayHomeContent() {
-    console.log('Displaying home content...');
     document.body.innerHTML = `
-        <div class="curtain-animation" style="animation: curtain 1s forwards;">
-            <h1>Welcome to Your Home</h1>
-            <audio id="bgm" src="file/The Smiths - There Is A Light That Never Goes Out (Official Audio).mp3" autoplay loop></audio>
-            <button onclick="window.location.href='gallery/gallery.html'">Go to Memories Gallery</button>
-            <button onclick="window.location.href='letterbox/letterbox.html'">Read/Write Letters</button>
-            <button onclick="window.location.href='webchat/webchat.html'">Chat with Friends</button>
-            <button onclick="window.location.href='gameroom/gameroom.html'">Enter Game Room</button>
+        <div class="next-page">
+            <h1>Welcome Home!</h1>
+            <audio src="file/The Smiths - There Is A Light That Never Goes Out (Official Audio).mp3" autoplay loop></audio>
+            <div class="menu">
+                <button class="modern-btn" onclick="navigateTo('gallery/gallery.html')">Go to Gallery</button>
+                <button class="modern-btn" onclick="navigateTo('letterbox/letterbox.html')">Letterbox</button>
+                <button class="modern-btn" onclick="navigateTo('webchat/webchat.html')">Webchat</button>
+                <button class="modern-btn" onclick="navigateTo('gameroom/gameroom.html')">Game Room</button>
+            </div>
         </div>
     `;
 }
 
-// Function to validate the password if used elsewhere
-function validatePassword() {
-    console.log('Validating password...');
-    const passwordInput = document.getElementById('password-input');
-    const errorMessage = document.getElementById('error-message');
-    const loadingIcon = document.getElementById('loading-icon');
-
-    if (passwordInput.value === "dioporco") {
-        console.log('Password is correct');
-        localStorage.setItem('loggedIn', 'true'); // Set login state
-        loadingIcon.style.display = 'block';
-
-        setTimeout(() => {
-            console.log('Hiding password container and displaying home content');
-            const passwordContainer = document.getElementById('password-container');
-            if (passwordContainer) {
-                passwordContainer.style.display = 'none'; // Hide after login
-            }
-            displayHomeContent();
-        }, 1500);
-    } else {
-        console.log('Incorrect password');
-        errorMessage.classList.remove('hidden');
-        setTimeout(() => {
-            errorMessage.classList.add('hidden');
-            passwordInput.value = ''; // Clear the input field
-        }, 3000);
-    }
-}
-
-// Event listeners for login
-const enterButton = document.getElementById('enter-button');
-if (enterButton) {
-    enterButton.addEventListener('click', validatePassword);
-    console.log('Enter button event listener added');
-}
-
-const passwordInput = document.getElementById('password-input');
-if (passwordInput) {
-    passwordInput.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter') {
-            validatePassword();
-        }
-    });
-    console.log('Password input event listener added');
+// Navigate to a specific page
+function navigateTo(url) {
+    window.location.href = url;
 }

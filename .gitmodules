@@ -1,0 +1,3 @@
+[submodule "webchat/webchat/Chat-Application"]
+	path = webchat/webchat/Chat-Application
+	url = https://github.com/AdvantageCommunity/Chat-Application.git

@@ -1,107 +1,109 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const galleryContent = document.getElementById("gallery-content");
-  const playMusicButton = document.getElementById("play-music");
-  const pauseMusicButton = document.getElementById("pause-music");
+  // DOM Elements
+  const musicUpload = document.getElementById("music-upload");
+  const startButton = document.getElementById("start-gallery");
+  const playButton = document.getElementById("play-music");
+  const pauseButton = document.getElementById("pause-music");
   const prevButton = document.getElementById("prev-button");
   const nextButton = document.getElementById("next-button");
-  const musicUpload = document.getElementById("music-upload");
-  const fileInput = document.getElementById("file-input");
+  const progressBar = document.getElementById("progress-bar");
+  const volumeControl = document.getElementById("volume-control");
+  const galleryContent = document.getElementById("gallery-content");
+  const initialPlayer = document.getElementById("initial-player");
+  const gallery = document.getElementById("gallery");
 
-  let images = [
-    { src: 'images/kiki.jpg', alt: 'Kiki' },
-    { src: 'images/ermi.jpg', alt: 'Ermi' },
-  ];
-  let currentIndex = 0;
   let music = new Audio();
   let musicPlaying = false;
+  let currentIndex = 0;
 
-  // Display image in the gallery
+  const images = [
+      { src: 'images/kiki.jpg', alt: 'Kiki' },
+      { src: 'images/ermi.jpg', alt: 'Ermi' }
+  ];
+
+  // Helper: Display Image
   function displayImage(index) {
-    galleryContent.innerHTML = '';
-    const img = document.createElement('img');
-    img.src = images[index].src;
-    img.alt = images[index].alt;
-    img.style.transform = 'scale(1)';
-    galleryContent.appendChild(img);
-
-    // Add animation
-    setTimeout(() => {
-      img.style.transform = 'scale(1.05)';
-      setTimeout(() => {
-        img.style.transform = 'scale(1)';
-      }, 500);
-    }, 0);
+      galleryContent.innerHTML = '';
+      const img = document.createElement("img");
+      img.src = images[index].src;
+      img.alt = images[index].alt;
+      galleryContent.appendChild(img);
   }
 
-  // Play music from the uploaded file
+  // Event: Upload Music
   musicUpload.addEventListener("change", (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const fileType = file.type;
-      if (fileType.startsWith('audio/')) {
-        const audioURL = URL.createObjectURL(file);
-        music.src = audioURL;
-        console.log(`Music source set to: ${music.src}`);
+      const file = event.target.files[0];
+      if (file && file.type.startsWith("audio/")) {
+          const audioURL = URL.createObjectURL(file);
+          music.src = audioURL;
+          music.load();
+          console.log("Audio loaded:", file.name);
       } else {
-        console.error('Invalid file type. Please upload an audio file.');
-        alert('Invalid file type. Please upload an audio file.');
+          alert("Please upload a valid audio file!");
       }
-    } else {
-      console.log('No music file selected.');
-    }
   });
 
-  // Play music when button clicked
-  playMusicButton.addEventListener("click", () => {
-    if (!musicPlaying && music.src) {
-      music.play().then(() => {
-        console.log('Music started playing.');
-        musicPlaying = true;
-      }).catch(error => {
-        console.error('Error playing the song:', error);
-        alert('An error occurred while trying to play the song.');
-      });
-    } else {
-      console.log('Music already playing.');
-    }
+  // Event: Start Gallery
+  startButton.addEventListener("click", () => {
+      if (music.src) {
+          initialPlayer.style.display = "none";
+          gallery.style.display = "block";
+          displayImage(currentIndex);
+      } else {
+          alert("Please select a song first!");
+      }
   });
 
-  // Pause music when button clicked
-  pauseMusicButton.addEventListener("click", () => {
-    if (musicPlaying) {
-      music.pause();
-      console.log('Music paused.');
-      musicPlaying = false;
-    }
+  // Event: Play Music
+  playButton.addEventListener("click", () => {
+      if (music.src && !musicPlaying) {
+          music.play()
+              .then(() => {
+                  musicPlaying = true;
+                  console.log("Music is playing.");
+              })
+              .catch(err => console.error("Playback error:", err));
+      } else {
+          alert("No music file selected!");
+      }
   });
 
-  // Show next image
-  function showNextImage() {
-    currentIndex = (currentIndex + 1) % images.length;
-    displayImage(currentIndex);
-  }
+  // Event: Pause Music
+  pauseButton.addEventListener("click", () => {
+      if (musicPlaying) {
+          music.pause();
+          musicPlaying = false;
+          console.log("Music paused.");
+      }
+  });
 
-  // Show previous image
-  function showPrevImage() {
-    currentIndex = (currentIndex - 1 + images.length) % images.length;
-    displayImage(currentIndex);
-  }
+  // Event: Change Volume
+  volumeControl.addEventListener("input", (event) => {
+      music.volume = event.target.value / 100;
+  });
 
-  // Listen to next and previous buttons
-  nextButton.addEventListener("click", showNextImage);
-  prevButton.addEventListener("click", showPrevImage);
+  // Event: Progress Bar
+  music.addEventListener("timeupdate", () => {
+      if (music.duration) {
+          progressBar.value = (music.currentTime / music.duration) * 100;
+      }
+  });
 
-  // Add image to gallery
-  fileInput.addEventListener("change", (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const imageURL = URL.createObjectURL(file);
-      images.push({ src: imageURL, alt: file.name });
-      console.log('Image added:', file.name);
+  progressBar.addEventListener("input", (event) => {
+      if (music.duration) {
+          music.currentTime = (event.target.value / 100) * music.duration;
+      }
+  });
+
+  // Navigation: Next Image
+  nextButton.addEventListener("click", () => {
+      currentIndex = (currentIndex + 1) % images.length;
       displayImage(currentIndex);
-    }
   });
 
-  // Initialize the gallery
-  displayImage(currentIndex);
+  // Navigation: Previous Image
+  prevButton.addEventListener("click", () => {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      displayImage(currentIndex);
+  });
 });

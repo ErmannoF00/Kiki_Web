@@ -7,23 +7,30 @@
     <link rel="stylesheet" href="home/home.css">
 </head>
 <body class="index-page">
+    <!-- Video Background -->
+    <video autoplay muted loop id="background-video">
+        <source src="./images/Collage.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Content Overlay -->
     <div class="container">
         <h1 class="fancy-title">Welcome to Your Special Space</h1>
-        <p>Please enter the password to access the home.</p>
+        <p>Please enter the password to access your space.</p>
 
-        <!-- Password container -->
-        <div id="password-container" class="hidden">
+        <!-- Password Container -->
+        <div id="password-container">
             <input type="password" id="password-input" placeholder="Enter password">
             <button id="enter-button">Enter</button>
-            <div id="loading-icon" class="loading" style="display: none;">Loading...</div>
+            <div id="loading-icon" class="loading hidden">Loading...</div>
         </div>
 
-        <!-- Error message -->
-        <div id="error-message" class="hidden">
-            <div class="model"></div>
+        <!-- Error Message -->
+        <div id="error-message" class="error hidden">
             <p>This is not your space. Try again, lover.</p>
         </div>
     </div>
+
     <script src="home/home.js"></script>
 </body>
 </html>

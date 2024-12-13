@@ -7,27 +7,35 @@
   <link rel="stylesheet" href="home.css">
 </head>
 <body>
-  <h1>Welcome to the Interactive Tree Animation</h1>
-  <p>Explore the beautiful animation and interact with the tree!</p>
-
-  <div id="canvas-container">
-    <canvas id="canvas"></canvas>
-    <audio id="bgm" src="song1.mp3" autoplay loop></audio>
-    <div id="controls">
-      <label for="soundControl">Volume:</label>
-      <input type="range" id="soundControl" min="0" max="1" step="0.1" value="0.5">
-
-      <label for="speedControl">Speed:</label>
-      <input type="range" id="speedControl" min="1" max="10" step="1" value="5">
+  <div class="next-page">
+    <!-- Image for background or content -->
+    <div id="image-container">
+      <img src="./Ronf_2.jpg" alt="Background Image" id="background-image" />
     </div>
+
+    <h1>Welcome to the Interactive Tree Animation</h1>
+    <p>Explore the beautiful animation and interact with the tree!</p>
+
+    <div id="canvas-container">
+      <canvas id="canvas"></canvas>
+      <audio id="bgm" src="./gallery/file/song1.mp3" autoplay loop></audio>
+      <div id="controls">
+        <label for="soundControl">Volume:</label>
+        <input type="range" id="soundControl" min="0" max="1" step="0.1" value="0.5">
+
+        <label for="speedControl">Speed:</label>
+        <input type="range" id="speedControl" min="1" max="10" step="1" value="5">
+      </div>
+    </div>
+
+    <div id="clock-box" style="opacity: 0;">
+      <p id="clock"></p>
+    </div>
+    <div id="letter"></div>
+
+    <input type="date" id="memorialDate" placeholder="Select a date for memorial">
   </div>
 
-  <div id="clock-box" style="opacity: 0;">
-    <p id="clock"></p>
-  </div>
-  <div id="letter"></div>
-
-  <input type="date" id="memorialDate" placeholder="Select a date for memorial">
   <script src="home.js"></script>
 </body>
 </html>
