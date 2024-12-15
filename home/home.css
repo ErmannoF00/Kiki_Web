@@ -187,3 +187,57 @@ body, h1, p, input, button, div {
 #controls input {
   margin-bottom: 10px;
 }
+
+/* Media Queries for Mobile Devices */
+@media only screen and (max-width: 768px) {
+  /* Adjust text size */
+  .next-page h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+
+  /* Adjust button size */
+  .modern-btn {
+    padding: 15px 30px;
+    font-size: 16px;
+  }
+
+  /* Ensure the background image remains centered and covers the screen */
+  .next-page {
+    background-size: cover;
+    background-position: center;
+  }
+
+  /* Ensure canvas takes up full width on small devices */
+  #canvas-container {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Adjust control sliders */
+  #controls input {
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  /* Adjust further for small screens */
+  .next-page h1 {
+    font-size: 22px;
+  }
+
+  .modern-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  /* Stack the controls vertically and ensure better accessibility */
+  #controls {
+    flex-direction: column;
+  }
+
+  #controls label, #controls input {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+}
