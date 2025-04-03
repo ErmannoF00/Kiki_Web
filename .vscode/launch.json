@@ -22,7 +22,7 @@
             "type": "chrome", 
             "request": "launch",
             "name": "Launch Live Server in Chrome",
-            "url": "http://127.0.0.1:5500/index.html", 
+            "url": "http://127.0.0.1:8080/index.html", 
             "webRoot": "${workspaceFolder}",
             "sourceMaps": true
         }
