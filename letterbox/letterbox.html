@@ -1,30 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Letterbox</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Galleria Lettere</title>
   <link rel="stylesheet" href="letterbox.css">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&display=swap" rel="stylesheet">
 </head>
-<body class="letterbox-page">
+<body>
   <div class="letterbox-container">
     <header class="letterbox-header">
-      <h1>Write a Romantic Letter</h1>
+      <h1>Scrivi una Lettera Romantica</h1>
+      <button id="open-form-button">➕ Nuova Lettera</button>
     </header>
-    <form id="letter-form">
-      <label for="letter-title">Title:</label>
-      <input type="text" id="letter-title" placeholder="Enter the title of your letter" required>
 
-      <label for="letter-content">Letter:</label>
-      <textarea id="letter-content" placeholder="Write your letter here..." required></textarea>
-
-      <button type="submit">Save Letter</button>
-    </form>
     <div class="letter-list" id="letter-list">
-      <h2>Your Saved Letters</h2>
+      <h2>Lettere Salvate</h2>
       <ul></ul>
     </div>
   </div>
+
+  <!-- Modale per creazione lettera -->
+  <div id="letter-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <form id="letter-form">
+        <label for="letter-title">Titolo:</label>
+        <input type="text" id="letter-title" required>
+
+        <label for="letter-author">Autore:</label>
+        <input type="text" id="letter-author" required>
+
+        <label for="letter-content">Contenuto:</label>
+        <textarea id="letter-content" required></textarea>
+
+        <label for="letter-image">Aggiungi Immagine:</label>
+        <input type="file" id="letter-image" accept="image/*">
+
+        <button type="submit">Salva</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Visualizzazione Lettera -->
+  <div class="cssletter" id="visual-letter" style="display: none;">
+    <div class="envelope" id="envelope">
+      <div class="envelope-flap"></div>
+      <div class="envelope-folds"></div>
+      <button class="heart" id="open-heart"><span class="heart-text">Apri</span></button>
+      <div class="letter center" id="letter-content-box">
+        <button class="closeLetter" id="close-letter"></button>
+        <div id="letter-text"></div>
+        <img id="letter-image-preview" src="" alt="Immagine" style="max-width: 100%; margin-top: 1rem; display: none;">
+        <cite id="letter-author-preview"></cite>
+      </div>
+    </div>
+  </div>
+
   <script src="letterbox.js"></script>
 </body>
 </html>

@@ -1,63 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Music and Gallery</title>
-    <script src="https://kit.fontawesome.com/7d35781f0a.js" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Reem+Kufi&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="gallery.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Galleria</title>
+  <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="gallery.css">
 </head>
 <body>
-    <!-- Initial Music Player -->
-    <div id="initial-player">
-        <h1>Choose the song for this collection</h1>
-        <input type="file" id="music-upload" accept="audio/*">
-        <button id="play-music">Play</button>
-        <button id="pause-music">Pause</button>
-        <button id="start-gallery">Play & View Collection</button>
-    </div>
+  <h1 class="title">Galleria</h1>
 
-    <!-- Gallery Section -->
-    <div id="gallery">
-        <div id="gallery-container">
-            <!-- Existing slide for your personal photo -->
-            <div class="slide">
-                <img id="custom-photo-1" src="file/ermi.png" alt="Ermix">
-                <p class="title">Personal Photo 1</p>
-            </div>
-            
-            <!-- Existing slide for another personal photo -->
-            <div class="slide">
-                <img id="custom-photo-2" src="file/kiki.png" alt="Kiki Ronf">
-                <p class="title">Personal Photo 2</p>
-            </div>
-        </div>
-        
-        <!-- Add Your Own Photos Section -->
-        <div class="add-photos">
-            <input type="file" id="file-upload" accept="image/*">
-            <button id="upload-button">Add Photo</button>
-        </div>
-        
-        <script src="gallery.js"></script>
-        
-        <div class="bottom-player">
-            <div class="controls">
-                <button id="prev-button"><i class="fas fa-step-backward"></i></button>
-                <button id="play-button"><i class="fas fa-play"></i></button>
-                <button id="next-button"><i class="fas fa-step-forward"></i></button>
-            </div>
-            <div class="progress-bar">
-                <input type="range" id="progress-bar" min="0" max="100" value="0">
-            </div>
-            <div class="volume">
-                <i class="fas fa-volume-down"></i>
-                <input type="range" id="volume-control" min="0" max="100" value="75">
-            </div>
-        </div>
-    </div>
+  <div class="upload-section">
+    <label for="file-upload" class="upload-label">
+      📸 Choose Photo
+      <input type="file" id="file-upload" accept="image/*">
+    </label>
+    <button id="upload-button">➕ Add to Gallery</button>
+  </div>
 
-    <script src="gallery.js"></script>
+  <div class="gallery-wrapper">
+    <div id="gallery-container" class="gallery"></div>
+  </div>
+
+  <div id="fullscreen-modal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="fullscreen-img">
+  </div>
+
+  <script src="gallery.js"></script>
 </body>
 </html>
