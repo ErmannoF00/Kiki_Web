@@ -20,11 +20,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (password === "baubau") {
         loadingIcon.classList.remove("hidden");
   
-        document.querySelector(".container").classList.add("fade-out");
-  
         setTimeout(() => {
           localStorage.setItem("passwordValidated", "true");
-          displayHomeContent();
+          document.querySelector(".container").classList.add("fade-out");
+          setTimeout(displayHomeContent, 500);
         }, 1500);
       } else {
         errorMessage.classList.remove("hidden");
@@ -39,29 +38,30 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   
   function displayHomeContent() {
-    document.body.className = "next-page fade-in";
+    document.body.className = "next-page";
   
-    // Remove everything else but keep video if present
-    Array.from(document.body.children).forEach(child => {
+    const children = Array.from(document.body.children);
+    children.forEach(child => {
       if (child.tagName !== "VIDEO") child.remove();
     });
   
     const audio = document.createElement("audio");
-    audio.src = "file/The_Smiths_-_There_Is_A_Light_That_Never_Goes_Out.mp3";
+    audio.id = "bgm";
+    audio.src = "gallery/file/song1.mp3";
     audio.autoplay = true;
     audio.loop = true;
     audio.setAttribute("playsinline", "true");
   
     const wrapper = document.createElement("div");
-    wrapper.className = "next-page-content fade-in";
+    wrapper.className = "next-page-content";
     wrapper.innerHTML = `
-      <h1 class="slide-in">Benvenuto a casa 🏡</h1>
+      <h1>Benvenutə a casa 🏡</h1>
       <div class="menu">
-        <button class="modern-btn glow" onclick="navigateTo('gallery/gallery.html')">Galleria</button>
-        <button class="modern-btn glow" onclick="navigateTo('letterbox/letterbox.html')">Lettere</button>
-        <button class="modern-btn glow" onclick="navigateTo('webchat/webchat.html')">Webchat</button>
-        <button class="modern-btn glow" onclick="navigateTo('gameroom/gameroom.html')">Game Room</button>
-        <button class="modern-btn logout-btn" onclick="logout()">Esci</button>
+        <button class="modern-btn" onclick="navigateTo('gallery/gallery.html')">Galleria</button>
+        <button class="modern-btn" onclick="navigateTo('letterbox/letterbox.html')">Lettere</button>
+        <button class="modern-btn" onclick="navigateTo('webchat/webchat.html')">Webchat</button>
+        <button class="modern-btn" onclick="navigateTo('gameroom/gameroom.html')">Sala Giochi</button>
+        <button class="modern-btn" onclick="logout()">Esci</button>
       </div>
     `;
   

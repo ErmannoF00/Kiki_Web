@@ -1,28 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interactive Tree - Home</title>
-  <link rel="stylesheet" href="home.css">
+  <title>Casa Segreta</title>
+  <link rel="stylesheet" href="home/home.css">
 </head>
 <body>
   <div class="next-page">
+    <!-- Sfondo immagine -->
     <div id="image-container">
-      <img src="./Ronf_2.jpg" alt="Background Image" id="background-image" />
+      <img src="Ronf_2.jpg" alt="Immagine di sfondo" id="background-image" />
     </div>
 
-    <h1>Welcome to the Interactive Tree Animation</h1>
-    <p>Explore the beautiful animation and interact with the tree!</p>
+    <h1>Benvenutə all'albero interattivo 🌳</h1>
+    <p>Esplora, ascolta e gioca con il tuo mondo segreto.</p>
 
     <div id="canvas-container">
       <canvas id="canvas"></canvas>
-      <audio id="bgm" src="./gallery/file/song1.mp3" autoplay loop></audio>
+      <audio id="bgm" src="gallery/file/song1.mp3" autoplay loop></audio>
+
       <div id="controls">
         <label for="soundControl">Volume:</label>
         <input type="range" id="soundControl" min="0" max="1" step="0.1" value="0.5">
 
-        <label for="speedControl">Speed:</label>
+        <label for="speedControl">Velocità:</label>
         <input type="range" id="speedControl" min="1" max="10" step="1" value="5">
       </div>
     </div>
@@ -30,12 +32,12 @@
     <div id="clock-box" style="opacity: 0;">
       <p id="clock"></p>
     </div>
+
     <div id="letter"></div>
 
-    <input type="date" id="memorialDate" placeholder="Select a date for memorial">
+    <input type="date" id="memorialDate" placeholder="Seleziona una data speciale">
   </div>
 
-  <script src="home.js"></script>
+  <script src="home/home.js"></script>
 </body>
 </html>
- 
