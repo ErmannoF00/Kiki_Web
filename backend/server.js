@@ -75,17 +75,19 @@ app.get("/api/images", async (req, res) => {
 });
 
 // PUT images
-app.put("/api/images", async (req, res) => {
+app.post("/api/images", async (req, res) => {
   try {
+    console.log("Received images:", req.body);
     await axios.put(`${BASE_URL}/${IMAGES_BIN_ID}`, req.body, {
       headers: jsonBinHeaders,
     });
     res.json({ success: true });
   } catch (err) {
-    console.error("Failed to save images:", err.message);
+    console.error("❌ Error saving to JSONBin:", err.message);
     res.status(500).json({ error: "Unable to save gallery." });
   }
 });
+
 
 // Letters endpoints (unchanged)
 app.get("/api/letters", async (req, res) => {
