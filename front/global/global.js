@@ -32,7 +32,8 @@ const showAlert = (message, type = 'success') => {
 
   document.body.appendChild(alert);
   setTimeout(() => {
-    alert.remove();
+    alert.classList.add('hide');
+    setTimeout(() => alert.remove(), 300);
   }, 3000);
 };
 
@@ -70,7 +71,7 @@ const initTooltips = () => {
       document.body.appendChild(tooltipElement);
       const rect = tooltip.getBoundingClientRect();
       tooltipElement.style.left = `${rect.left + window.pageXOffset}px`;
-      tooltipElement.style.top = `${rect.top + window.pageYOffset - tooltipElement.offsetHeight}px`;
+      tooltipElement.style.top = `${rect.top + window.pageYOffset - tooltipElement.offsetHeight - 8}px`;
     });
 
     tooltip.addEventListener('mouseout', () => {
@@ -79,5 +80,25 @@ const initTooltips = () => {
   });
 };
 
-// Call initTooltips on page load if needed
+// Optional: Debounce and Throttle
+const debounce = (func, wait) => {
+  let timeout;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), wait);
+  };
+};
+
+const throttle = (func, limit) => {
+  let inThrottle;
+  return (...args) => {
+    if (!inThrottle) {
+      func.apply(this, args);
+      inThrottle = true;
+      setTimeout(() => (inThrottle = false), limit);
+    }
+  };
+};
+
+// Initialize tooltips on DOM ready
 document.addEventListener('DOMContentLoaded', initTooltips);
