@@ -12,12 +12,35 @@ document.addEventListener("DOMContentLoaded", () => {
   const envelope = document.getElementById("envelope");
   const authorPreview = document.getElementById("letter-author-preview");
   const imagePreview = document.getElementById("letter-image-preview");
-
   const imageInput = document.getElementById("letter-image");
 
-  function loadLetters() {
+  let letters = [];
+
+  async function fetchLetters() {
+    try {
+      const res = await fetch("https://kiki-web-33io.onrender.com/api/letters");
+      const data = await res.json();
+      letters = data.letters || [];
+      updateLetterList();
+    } catch (error) {
+      console.error("Error fetching letters:", error);
+    }
+  }
+
+  async function saveLetters() {
+    try {
+      await fetch("https://kiki-web-33io.onrender.com/api/letters", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ letters }),
+      });
+    } catch (error) {
+      console.error("Error saving letters:", error);
+    }
+  }
+
+  function updateLetterList() {
     letterList.innerHTML = "";
-    const letters = JSON.parse(localStorage.getItem("letters") || "[]");
     letters.forEach((letter, index) => {
       const li = document.createElement("li");
       li.textContent = `${letter.title} — ${letter.author}`;
@@ -63,20 +86,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const file = imageInput.files[0];
 
     const reader = new FileReader();
-    reader.onload = () => {
+    reader.onload = async () => {
       const image = file ? reader.result : null;
-
-      const letters = JSON.parse(localStorage.getItem("letters") || "[]");
       letters.push({ title, author, content, image });
-      localStorage.setItem("letters", JSON.stringify(letters));
-
+      await saveLetters();
       modal.style.display = "none";
       form.reset();
-      loadLetters();
+      updateLetterList();
     };
 
-    if (file) reader.readAsDataURL(file);
-    else reader.onload();
+    if (file) {
+      reader.readAsDataURL(file);
+    } else {
+      reader.onload();
+    }
   });
 
   openHeart.addEventListener("click", () => {
@@ -94,5 +117,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  loadLetters();
+  fetchLetters();
 });

@@ -1,43 +1,61 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const gameOptions = document.querySelectorAll(".game-option");
-    const yourGameDisplay = document.getElementById("your-game");
-    const friendGameStatus = document.getElementById("friend-game-status");
-    const startGameButton = document.getElementById("start-game");
-  
-    let yourGameSelection = null;
-    let friendGameSelection = null;
-  
-    // Function to handle game selection
-    gameOptions.forEach(button => {
-      button.addEventListener("click", (e) => {
-        yourGameSelection = e.target.getAttribute("data-game");
-        yourGameDisplay.textContent = `You selected: ${yourGameSelection}`;
-        localStorage.setItem("yourGame", yourGameSelection);
-        checkFriendSelection();
-      });
+  const socket = new WebSocket("wss://kiki-web-33io.onrender.com");
+
+  const gameButtons = document.querySelectorAll(".game-option");
+  const yourGameText = document.getElementById("your-game");
+  const friendGameText = document.getElementById("friend-game-status");
+  const onlineIndicator = document.getElementById("online-status");
+  const startGameBtn = document.getElementById("start-game");
+
+  let yourSelection = null;
+  let friendSelection = null;
+
+  // Ensure messages are sent only when the WebSocket is open
+  function safeSend(data) {
+    if (socket.readyState === WebSocket.OPEN) {
+      socket.send(JSON.stringify(data));
+    } else {
+      socket.addEventListener("open", () => {
+        socket.send(JSON.stringify(data));
+      }, { once: true });
+    }
+  }
+
+  gameButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      yourSelection = btn.dataset.game;
+      yourGameText.textContent = `You selected: ${yourSelection}`;
+      safeSend({ type: "game-selection", game: yourSelection });
+
+      if (friendSelection) {
+        startGameBtn.style.display = "block";
+      }
     });
-  
-    // Function to check if the friend has made a selection
-    const checkFriendSelection = () => {
-      friendGameSelection = localStorage.getItem("friendGame");
-      if (friendGameSelection) {
-        friendGameStatus.textContent = `Friend selected: ${friendGameSelection}`;
-        startGameButton.style.display = "block";
-        startGameButton.addEventListener("click", () => {
-          alert(`Starting game: ${yourGameSelection}`);
-          // Redirect to the chosen game link
-          window.location.href = `../games/${yourGameSelection}.html`;
-        });
-      }
-    };
-  
-    // Simulate friend selecting a game (this would be replaced with real-time updates)
-    setTimeout(() => {
-      if (!friendGameSelection) {
-        friendGameSelection = "game2"; // Hardcoded for demo purposes
-        localStorage.setItem("friendGame", friendGameSelection);
-        checkFriendSelection();
-      }
-    }, 3000); // Simulate a 3-second delay for the friend selection
   });
-  
+
+  socket.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+
+    if (data.type === "presence") {
+      const online = data.count > 1;
+      onlineIndicator.textContent = online ? "Friend is online 💖" : "You're alone 😢";
+    }
+
+    if (data.type === "games") {
+      const [you, friend] = data.games;
+      friendSelection = friend;
+      if (friend && friend !== yourSelection) {
+        friendGameText.textContent = `Friend selected: ${friend}`;
+        if (yourSelection) {
+          startGameBtn.style.display = "block";
+        }
+      }
+    }
+  };
+
+  startGameBtn.addEventListener("click", () => {
+    if (yourSelection) {
+      window.open(yourSelection, "_blank");
+    }
+  });
+});

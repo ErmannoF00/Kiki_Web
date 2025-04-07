@@ -7,7 +7,30 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalImg = document.getElementById("fullscreen-img");
   const modalClose = document.querySelector(".close");
 
-  let images = JSON.parse(localStorage.getItem("userImages") || "[]");
+  let images = [];
+
+  async function fetchImages() {
+    try {
+      const res = await fetch("https://kiki-web-33io.onrender.com/images");
+      const data = await res.json();
+      images = data?.images || [];
+      updateGallery();
+    } catch (error) {
+      console.error("Errore durante il caricamento delle immagini:", error);
+    }
+  }
+
+  async function saveImages() {
+    try {
+      await fetch("https://kiki-web-33io.onrender.com/images", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ images }),
+      });
+    } catch (error) {
+      console.error("Errore durante il salvataggio delle immagini:", error);
+    }
+  }
 
   function createCube(imageUrl, index) {
     const ul = document.createElement("ul");
@@ -30,15 +53,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const removeBtn = document.createElement("button");
     removeBtn.textContent = "×";
     removeBtn.classList.add("remove-btn");
-    removeBtn.addEventListener("click", (e) => {
+    removeBtn.addEventListener("click", async (e) => {
       e.stopPropagation();
       images.splice(index, 1);
-      localStorage.setItem("userImages", JSON.stringify(images));
+      await saveImages();
       updateGallery();
     });
     ul.appendChild(removeBtn);
 
-    // Drag events
     ul.addEventListener("dragstart", (e) => {
       e.dataTransfer.setData("index", index);
     });
@@ -47,14 +69,14 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
     });
 
-    ul.addEventListener("drop", (e) => {
+    ul.addEventListener("drop", async (e) => {
       e.preventDefault();
       const draggedIndex = e.dataTransfer.getData("index");
       const targetIndex = ul.dataset.index;
       const temp = images[draggedIndex];
       images[draggedIndex] = images[targetIndex];
       images[targetIndex] = temp;
-      localStorage.setItem("userImages", JSON.stringify(images));
+      await saveImages();
       updateGallery();
     });
 
@@ -70,15 +92,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const file = fileUpload.files[0];
     if (file && file.type.startsWith("image/")) {
       const reader = new FileReader();
-      reader.onload = () => {
+      reader.onload = async () => {
         const dataURL = reader.result;
         images.push(dataURL);
-        localStorage.setItem("userImages", JSON.stringify(images));
+        await saveImages();
         updateGallery();
       };
       reader.readAsDataURL(file);
     } else {
-      alert("Please select a valid image file!");
+      alert("Seleziona un file immagine valido.");
     }
   });
 
@@ -94,5 +116,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  updateGallery();
+  fetchImages();
 });
