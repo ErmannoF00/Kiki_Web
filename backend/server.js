@@ -61,7 +61,33 @@ const jsonBinHeaders = {
   "Content-Type": "application/json",
 };
 
-// GET letters
+// GET images
+app.get("/api/images", async (req, res) => {
+  try {
+    const { data } = await axios.get(`${BASE_URL}/${IMAGES_BIN_ID}/latest`, {
+      headers: jsonBinHeaders,
+    });
+    res.json(data.record);
+  } catch (err) {
+    console.error("Failed to fetch images:", err.message);
+    res.status(500).json({ error: "Unable to fetch gallery." });
+  }
+});
+
+// PUT images
+app.put("/api/images", async (req, res) => {
+  try {
+    await axios.put(`${BASE_URL}/${IMAGES_BIN_ID}`, req.body, {
+      headers: jsonBinHeaders,
+    });
+    res.json({ success: true });
+  } catch (err) {
+    console.error("Failed to save images:", err.message);
+    res.status(500).json({ error: "Unable to save gallery." });
+  }
+});
+
+// Letters endpoints (unchanged)
 app.get("/api/letters", async (req, res) => {
   try {
     const { data } = await axios.get(`${BASE_URL}/${LETTERS_BIN_ID}/latest`, {
@@ -73,7 +99,6 @@ app.get("/api/letters", async (req, res) => {
   }
 });
 
-// PUT letters
 app.put("/api/letters", async (req, res) => {
   try {
     await axios.put(`${BASE_URL}/${LETTERS_BIN_ID}`, req.body, {
@@ -82,30 +107,6 @@ app.put("/api/letters", async (req, res) => {
     res.json({ success: true });
   } catch (err) {
     res.status(500).json({ error: "Unable to save letters." });
-  }
-});
-
-// GET gallery
-app.get("/api/images", async (req, res) => {
-  try {
-    const { data } = await axios.get(`${BASE_URL}/${IMAGES_BIN_ID}/latest`, {
-      headers: jsonBinHeaders,
-    });
-    res.json(data.record);
-  } catch (err) {
-    res.status(500).json({ error: "Unable to fetch gallery." });
-  }
-});
-
-// PUT gallery
-app.put("/api/images", async (req, res) => {
-  try {
-    await axios.put(`${BASE_URL}/${IMAGES_BIN_ID}`, req.body, {
-      headers: jsonBinHeaders,
-    });
-    res.json({ success: true });
-  } catch (err) {
-    res.status(500).json({ error: "Unable to save gallery." });
   }
 });
 

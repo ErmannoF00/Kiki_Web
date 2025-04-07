@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function fetchImages() {
     try {
-      const res = await fetch("https://kiki-web-33io.onrender.com/images");
+      const res = await fetch("https://kiki-web-33io.onrender.com/api/images");
       const data = await res.json();
       images = data?.images || [];
       updateGallery();
@@ -22,8 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function saveImages() {
     try {
-      await fetch("https://kiki-web-33io.onrender.com/images", {
-        method: "POST",
+      await fetch("https://kiki-web-33io.onrender.com/api/images", {
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ images }),
       });
