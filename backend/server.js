@@ -60,30 +60,36 @@ const jsonBinHeaders = {
   "Content-Type": "application/json",
 };
 
+// GET images
 app.get("/api/images", async (req, res) => {
   try {
     const { data } = await axios.get(`${BASE_URL}/${IMAGES_BIN_ID}/latest`, {
       headers: jsonBinHeaders,
     });
-    res.json(data.record);
+    res.json(data.record); // Flat array: [ "data:image/jpeg;base64,...", ... ]
   } catch (err) {
-    console.error("Failed to fetch images:", err.message);
+    console.error("❌ Failed to fetch images:", err.message);
     res.status(500).json({ error: "Unable to fetch gallery." });
   }
 });
 
-app.post("/api/images", async (req, res) => {
+// PUT images
+app.put("/api/images", async (req, res) => {
   try {
-    console.log("Saving images:", req.body);
-    await axios.put(`${BASE_URL}/${IMAGES_BIN_ID}`, req.body, {
+    const newImages = req.body;
+    if (!Array.isArray(newImages)) {
+      return res.status(400).json({ error: "Invalid image data format." });
+    }
+    await axios.put(`${BASE_URL}/${IMAGES_BIN_ID}`, newImages, {
       headers: jsonBinHeaders,
     });
     res.json({ success: true });
   } catch (err) {
-    console.error("❌ Error saving images:", err.message);
+    console.error("❌ Error saving images to JSONBin:", err.message);
     res.status(500).json({ error: "Unable to save gallery." });
   }
 });
+
 
 // Letters endpoints
 app.get("/api/letters", async (req, res) => {
