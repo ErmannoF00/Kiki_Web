@@ -3,14 +3,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const chatMessages = document.getElementById("chat-messages");
   const sendButton = document.getElementById("send-button");
   const audioRecordButton = document.getElementById("audio-record");
-  const videoRecordButton = document.getElementById("video-record");
   const userStatus = document.getElementById("user-status");
 
   let isAuthorized = false;
   const messages = JSON.parse(localStorage.getItem("privateMessages") || "[]");
 
+  // Ask for second password
   const requestAccess = () => {
-    const pass = prompt("Inserisci la seconda password per accedere alla chat:");
+    const pass = prompt("Inserisci la password segreta per accedere alla chat:");
     if (pass === "segreto") {
       isAuthorized = true;
       messages.forEach(displayMessage);
@@ -18,10 +18,10 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Accesso negato.");
     }
   };
-
   requestAccess();
 
-  const socket = new WebSocket("wss://kiki-web-33io.onrender.com"); // Use your backend
+  const socket = new WebSocket("wss://kiki-web-33io.onrender.com");
+
   socket.onopen = () => (userStatus.textContent = "Online");
   socket.onclose = () => (userStatus.textContent = "Offline");
 
@@ -46,10 +46,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.key === "Enter") sendButton.click();
   });
 
-  const saveAndDisplay = (message) => {
-    messages.push(message);
+  const saveAndDisplay = (msg) => {
+    messages.push(msg);
     localStorage.setItem("privateMessages", JSON.stringify(messages));
-    displayMessage(message);
+    displayMessage(msg);
   };
 
   function displayMessage({ username, content }) {
@@ -60,11 +60,38 @@ document.addEventListener("DOMContentLoaded", () => {
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
-  audioRecordButton.addEventListener("click", async () => {
-    alert("Registrazione audio non ancora disponibile.");
-  });
+  // 🎙️ Audio Recording
+  let mediaRecorder;
+  let chunks = [];
 
-  videoRecordButton.addEventListener("click", async () => {
-    alert("Registrazione video non ancora disponibile.");
+  audioRecordButton.addEventListener("click", async () => {
+    if (!navigator.mediaDevices) {
+      alert("Audio non supportato nel browser.");
+      return;
+    }
+
+    if (!mediaRecorder) {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream, { mimeType: "audio/webm" });
+
+      mediaRecorder.ondataavailable = e => chunks.push(e.data);
+      mediaRecorder.onstop = () => {
+        const blob = new Blob(chunks, { type: "audio/webm" });
+        const url = URL.createObjectURL(blob);
+        const audio = document.createElement("audio");
+        audio.controls = true;
+        audio.src = url;
+        chatMessages.appendChild(audio);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        chunks = [];
+      };
+
+      mediaRecorder.start();
+      audioRecordButton.textContent = "🛑";
+    } else {
+      mediaRecorder.stop();
+      mediaRecorder = null;
+      audioRecordButton.textContent = "🎙️";
+    }
   });
 });
