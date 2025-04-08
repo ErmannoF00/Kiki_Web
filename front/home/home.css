@@ -14,6 +14,7 @@ body, h1, p, input, button, div {
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  position: relative;
 }
 
 #background-video {
@@ -83,18 +84,18 @@ body, h1, p, input, button, div {
   color: white;
 }
 
-.loading {
+#loading-icon {
   margin-top: 10px;
   font-size: 16px;
   color: white;
 }
 
-.loading.hidden,
-.error.hidden {
+#loading-icon.hidden,
+#error-message.hidden {
   display: none;
 }
 
-.error {
+#error-message {
   margin-top: 10px;
   color: red;
   font-size: 14px;
@@ -121,7 +122,6 @@ body, h1, p, input, button, div {
   padding: 2rem;
 }
 
-/* Immagine di sfondo centrata */
 #image-container {
   position: absolute;
   top: 0;
@@ -147,7 +147,6 @@ body, h1, p, input, button, div {
   filter: blur(1px);
 }
 
-/* Titolo */
 .next-page h1 {
   font-size: 32px;
   margin-bottom: 20px;
@@ -156,7 +155,6 @@ body, h1, p, input, button, div {
   text-align: center;
 }
 
-/* Bottoni */
 .menu {
   display: flex;
   flex-wrap: wrap;
@@ -181,24 +179,6 @@ body, h1, p, input, button, div {
 .modern-btn:hover {
   transform: scale(1.08);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
-}
-
-/* ------------------- Controls & Audio ------------------- */
-#canvas-container {
-  position: relative;
-  z-index: 10;
-  margin-top: 30px;
-}
-
-#controls {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-}
-
-#controls label,
-#controls input {
-  margin-bottom: 10px;
 }
 
 /* ------------------- Responsive ------------------- */
@@ -234,11 +214,6 @@ body, h1, p, input, button, div {
   .modern-btn {
     font-size: 14px;
     padding: 10px 20px;
-  }
-
-  #controls label, #controls input {
-    width: 100%;
-    margin-bottom: 15px;
   }
 
   #background-image {

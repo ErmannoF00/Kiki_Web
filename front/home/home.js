@@ -14,10 +14,20 @@ function setupPasswordPage() {
   const errorMessage = document.getElementById("error-message");
   const loadingIcon = document.getElementById("loading-icon");
 
-  const validatePassword = () => {
+  const validatePassword = async () => {
     const password = passwordInput.value.trim();
 
-    if (password === "baubau") {
+    // Hash the input using SHA-256
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+
+    // SHA-256 hash of "baubau"
+    const correctHash = "330e57d173006fae7f9d362905961c1fdab3e6cd71b9bbad0c07bde92c9ce3cb";
+
+    if (hashHex === correctHash) {
       loadingIcon.classList.remove("hidden");
 
       setTimeout(() => {

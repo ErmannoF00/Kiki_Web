@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
   const galleryContainer = document.getElementById("gallery-container");
-  const uploadButton = document.getElementById("upload-button");
   const fileUpload = document.getElementById("file-upload");
 
   const modal = document.getElementById("fullscreen-modal");
@@ -13,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const res = await fetch("https://kiki-web-33io.onrender.com/api/images");
       const data = await res.json();
-      images = data || [];  // Now it's a flat array of base64 strings
+      images = data || [];
       updateGallery();
     } catch (error) {
       console.error("Errore durante il caricamento delle immagini:", error);
@@ -88,14 +87,14 @@ document.addEventListener("DOMContentLoaded", () => {
     images.forEach((src, index) => createCube(src, index));
   }
 
-  uploadButton.addEventListener("click", () => {
+  fileUpload.addEventListener("change", () => {
     const file = fileUpload.files[0];
     if (file && file.type.startsWith("image/")) {
       const reader = new FileReader();
       reader.onload = async () => {
-        images.push(reader.result); // Push base64 string
-        await saveImages();
-        updateGallery();
+        images.push(reader.result); // Add image as base64
+        await saveImages();         // Save to backend
+        updateGallery();            // Refresh gallery
       };
       reader.readAsDataURL(file);
     } else {
