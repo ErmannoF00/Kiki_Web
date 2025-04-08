@@ -1,6 +1,6 @@
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: #e9ecef;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #e5ddd5;
   margin: 0;
   padding: 20px;
 }
@@ -17,12 +17,11 @@ body {
 }
 
 .chat-header {
-  background-color: #007bff;
+  background-color: #075e54;
   color: #fff;
   padding: 10px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 
 .user-info {
@@ -44,49 +43,65 @@ body {
 
 .chat-messages {
   flex: 1;
-  padding: 10px;
+  padding: 15px;
+  background-color: #f0f0f0;
   overflow-y: auto;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
 }
 
-.message {
+.message-bubble {
+  max-width: 70%;
   margin-bottom: 10px;
+  padding: 10px 15px;
+  border-radius: 20px;
+  word-wrap: break-word;
+  display: inline-block;
 }
 
-.message .username {
+.incoming {
+  background-color: #ffffff;
+  align-self: flex-start;
+  border: 1px solid #ddd;
+}
+
+.outgoing {
+  background-color: #dcf8c6;
+  align-self: flex-end;
+}
+
+.message-bubble .username {
+  display: block;
+  font-size: 0.8rem;
   font-weight: bold;
+  color: #555;
+  margin-bottom: 5px;
 }
 
 .chat-controls {
   display: flex;
   padding: 10px;
   border-top: 1px solid #ddd;
+  background-color: #fff;
 }
 
 #chat-input {
   flex: 1;
-  padding: 5px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
   margin-right: 10px;
+  font-size: 1rem;
 }
 
 button {
-  background-color: #007bff;
-  color: #fff;
+  background-color: #25d366;
+  color: white;
   border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
+  padding: 8px 14px;
+  border-radius: 50%;
+  font-size: 18px;
   cursor: pointer;
-  margin-left: 5px;
-  transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #0056b3;
-}
-
-button[title] {
-  font-size: 18px;
+  background-color: #1ebea5;
 }

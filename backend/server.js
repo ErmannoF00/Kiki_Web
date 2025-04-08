@@ -12,13 +12,12 @@ app.use(express.json());
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
-// WebSocket for Game Room
+// WebSocket Game Room
 let clients = [];
 
 wss.on("connection", (ws) => {
   const user = { ws, game: null };
   clients.push(user);
-
   broadcastOnline();
 
   ws.on("message", (message) => {
@@ -61,7 +60,6 @@ const jsonBinHeaders = {
   "Content-Type": "application/json",
 };
 
-// GET images
 app.get("/api/images", async (req, res) => {
   try {
     const { data } = await axios.get(`${BASE_URL}/${IMAGES_BIN_ID}/latest`, {
@@ -74,22 +72,20 @@ app.get("/api/images", async (req, res) => {
   }
 });
 
-// PUT images
 app.post("/api/images", async (req, res) => {
   try {
-    console.log("Received images:", req.body);
+    console.log("Saving images:", req.body);
     await axios.put(`${BASE_URL}/${IMAGES_BIN_ID}`, req.body, {
       headers: jsonBinHeaders,
     });
     res.json({ success: true });
   } catch (err) {
-    console.error("❌ Error saving to JSONBin:", err.message);
+    console.error("❌ Error saving images:", err.message);
     res.status(500).json({ error: "Unable to save gallery." });
   }
 });
 
-
-// Letters endpoints (unchanged)
+// Letters endpoints
 app.get("/api/letters", async (req, res) => {
   try {
     const { data } = await axios.get(`${BASE_URL}/${LETTERS_BIN_ID}/latest`, {

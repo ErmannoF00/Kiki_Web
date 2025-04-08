@@ -6,86 +6,65 @@ document.addEventListener("DOMContentLoaded", () => {
   const videoRecordButton = document.getElementById("video-record");
   const userStatus = document.getElementById("user-status");
 
-  // Initialize WebSocket connection to the server
-  const socket = new WebSocket("ws://localhost:8080");
+  let isAuthorized = false;
+  const messages = JSON.parse(localStorage.getItem("privateMessages") || "[]");
 
-  socket.onopen = () => {
-    console.log("Connected to the server");
-    userStatus.textContent = "Online";
+  const requestAccess = () => {
+    const pass = prompt("Inserisci la seconda password per accedere alla chat:");
+    if (pass === "segreto") {
+      isAuthorized = true;
+      messages.forEach(displayMessage);
+    } else {
+      alert("Accesso negato.");
+    }
   };
 
-  socket.onclose = () => {
-    console.log("Disconnected from the server");
-    userStatus.textContent = "Offline";
-  };
+  requestAccess();
+
+  const socket = new WebSocket("wss://kiki-web-33io.onrender.com"); // Use your backend
+  socket.onopen = () => (userStatus.textContent = "Online");
+  socket.onclose = () => (userStatus.textContent = "Offline");
 
   socket.onmessage = (event) => {
     const message = JSON.parse(event.data);
     if (message.type === "chat") {
-      displayMessage(message);
+      saveAndDisplay(message);
     }
   };
 
   sendButton.addEventListener("click", () => {
-    const messageText = chatInput.value.trim();
-    if (messageText) {
-      const message = { type: "chat", content: messageText, username: "You" };
+    const text = chatInput.value.trim();
+    if (text && isAuthorized) {
+      const message = { type: "chat", content: text, username: "You" };
       socket.send(JSON.stringify(message));
+      saveAndDisplay(message);
       chatInput.value = "";
-      displayMessage(message);
     }
   });
 
   chatInput.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
-      sendButton.click();
-    }
+    if (e.key === "Enter") sendButton.click();
   });
 
+  const saveAndDisplay = (message) => {
+    messages.push(message);
+    localStorage.setItem("privateMessages", JSON.stringify(messages));
+    displayMessage(message);
+  };
+
   function displayMessage({ username, content }) {
-    const messageElement = document.createElement("div");
-    messageElement.classList.add("message");
-    messageElement.innerHTML = `<span class="username">${username}:</span> <span class="text">${content}</span>`;
-    chatMessages.appendChild(messageElement);
+    const wrapper = document.createElement("div");
+    wrapper.classList.add("message-bubble", username === "You" ? "outgoing" : "incoming");
+    wrapper.innerHTML = `<span class="username">${username}</span><p class="text">${content}</p>`;
+    chatMessages.appendChild(wrapper);
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
-  // Audio recording logic
-  let audioRecorder;
-  let audioChunks = [];
-
   audioRecordButton.addEventListener("click", async () => {
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      alert("Audio recording is not supported in your browser.");
-      return;
-    }
-
-    if (!audioRecorder) {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      audioRecorder = new MediaRecorder(stream);
-      audioRecorder.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          audioChunks.push(event.data);
-        }
-      };
-      audioRecorder.onstop = () => {
-        const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
-        const audioUrl = URL.createObjectURL(audioBlob);
-        const audioElement = new Audio(audioUrl);
-        audioElement.controls = true;
-        chatMessages.appendChild(audioElement);
-        audioChunks = [];
-      };
-      audioRecorder.start();
-      audioRecordButton.textContent = "Stop";
-    } else {
-      audioRecorder.stop();
-      audioRecorder = null;
-      audioRecordButton.textContent = "🎙️";
-    }
+    alert("Registrazione audio non ancora disponibile.");
   });
 
   videoRecordButton.addEventListener("click", async () => {
-    alert("Video recording is not yet implemented.");
+    alert("Registrazione video non ancora disponibile.");
   });
 });
