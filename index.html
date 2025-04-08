@@ -14,22 +14,20 @@
   </video>
 
   <!-- Overlay -->
-  <div class="container">
-    <h1 class="fancy-title">Benvenuta Kiki</h1>
-    <p>Inserisci la password per accedere al tuo mondo.</p>
+  <!-- Overlay -->
+<div class="container">
+  <h1 class="fancy-title">Benvenuta Kiki</h1>
+  <p>Inserisci la password per accedere al tuo mondo.</p>
+  <input type="password" id="password-input" placeholder="Inserisci password..." />
+  <button id="enter-button">Entra</button>
+  <div id="loading-icon" class="hidden">🔄</div>
 
-    <div class="container">
-      <input type="password" id="password-input" placeholder="Inserisci password..." />
-      <button id="enter-button">Entra</button>
-      <div id="loading-icon" class="hidden">🔄</div>
-      <div id="error-message" class="hidden">Password errata! 😢</div>
-    </div>
-    
-
-    <div id="error-message" class="error hidden">
-      <p>Questa non è la tua zona segreta. Riprova, bb.</p>
-    </div>
+  <!-- UNICO messaggio errore -->
+  <div id="error-message" class="error hidden">
+    Password errata! Riprova bb...
   </div>
+</div>
+
 
   <script src="front/home/home.js"></script>
 </body>

@@ -24,8 +24,9 @@ function setupPasswordPage() {
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     const hashHex = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
 
-    // SHA-256 hash of "baubau"
-    const correctHash = "330e57d173006fae7f9d362905961c1fdab3e6cd71b9bbad0c07bde92c9ce3cb";
+  
+    const correctHash = "644c4f3f85f135ceccd732a2929f7c36667e3494972b5dde89a6dcc843f4967e";
+
 
     if (hashHex === correctHash) {
       loadingIcon.classList.remove("hidden");
