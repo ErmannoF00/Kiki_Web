@@ -60,27 +60,29 @@ const jsonBinHeaders = {
   "Content-Type": "application/json",
 };
 
+
 // GET images
 app.get("/api/images", async (req, res) => {
   try {
     const { data } = await axios.get(`${BASE_URL}/${IMAGES_BIN_ID}/latest`, {
       headers: jsonBinHeaders,
     });
-    res.json(data.record); // Flat array: [ "data:image/jpeg;base64,...", ... ]
+    res.json(data.record); // Ensure this returns an array of base64 images
   } catch (err) {
     console.error("❌ Failed to fetch images:", err.message);
     res.status(500).json({ error: "Unable to fetch gallery." });
   }
 });
 
+
 // PUT images
 app.put("/api/images", async (req, res) => {
   try {
-    const newImages = req.body;
-    if (!Array.isArray(newImages)) {
+    const newImages = req.body; // expecting an array of base64 image strings
+    if (!Array.isArray(newImages) || !newImages.every(img => typeof img === "string")) {
       return res.status(400).json({ error: "Invalid image data format." });
     }
-    await axios.put(`${BASE_URL}/${IMAGES_BIN_ID}`, newImages, {
+    await axios.put(`${BASE_URL}/${IMAGES_BIN_ID}`, { record: newImages }, {
       headers: jsonBinHeaders,
     });
     res.json({ success: true });

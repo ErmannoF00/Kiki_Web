@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Seleziona un file immagine valido.");
     }
   });
-
+  
   modalClose.addEventListener("click", () => {
     modal.style.display = "none";
     modalImg.src = "";
