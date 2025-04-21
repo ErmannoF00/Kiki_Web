@@ -1,3 +1,12 @@
-.env
+# Node.js
 node_modules/
 
+# Logs
+logs
+*.log
+
+# Environment Variables
+.env
+
+# npm-debug files
+npm-debug.log*
