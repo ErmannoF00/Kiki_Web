@@ -8,17 +8,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let images = [];
 
-  // Fetch images from the backend
   async function fetchImages() {
     try {
       const res = await fetch("https://kiki-web-33io.onrender.com/api/images");
       const data = await res.json();
-      images = data || [];
+      images = data.imageUrls || []; // Ensure you're using imageUrls
       updateGallery();
     } catch (error) {
       console.error("Error during image loading:", error);
     }
   }
+  
 
   // Save the current images to the backend
   async function saveImages() {
@@ -49,35 +49,38 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Upload a single image to Google Drive
-  async function uploadImageToDrive(base64Image, fileName, mimeType) {
+  async function uploadImageToDrive(base64Image, fileName) {
     try {
       const auth = await authenticateGoogleDrive();
       const driveService = google.drive({ version: "v3", auth });
-
+  
       // Convert base64 string to buffer
       const buffer = Buffer.from(base64Image.split(",")[1], "base64");
-
+  
       const fileMetadata = {
         name: fileName,
-        parents: ["1wDTQl4oN6ayHfzHXPrEY9AyPwq6OAOja"], // Folder ID where you want to upload the image
+        parents: ["1wDTQl4oN6ayHfzHXPrEY9AyPwq6OAOja"], // Your folder ID on Google Drive
       };
-
+  
       const media = {
-        mimeType: mimeType,
+        mimeType: "image/jpeg", // Assuming all images are jpeg; adjust if necessary
         body: buffer,
       };
-
+  
       const res = await driveService.files.create({
         resource: fileMetadata,
         media: media,
         fields: "id",
       });
-
+  
       console.log("File uploaded to Drive with ID:", res.data.id);
+      return `https://drive.google.com/uc?id=${res.data.id}`; // Return the Google Drive image URL
     } catch (err) {
       console.error("Error uploading file to Google Drive:", err.message);
+      throw new Error("Failed to upload image to Google Drive");
     }
   }
+  
 
   // Create a visual gallery item (cube) for each image
   function createCube(imageUrl, index) {

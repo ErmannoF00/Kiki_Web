@@ -120,6 +120,7 @@ app.get("/api/images", async (req, res) => {
 });
 
 // PUT images
+// PUT images
 app.put("/api/images", async (req, res) => {
   try {
     const newImages = req.body; // Expecting an array of base64 image strings
@@ -146,6 +147,7 @@ app.put("/api/images", async (req, res) => {
     res.status(500).json({ error: "Unable to save gallery and upload images." });
   }
 });
+
 
 // DELETE images from JSONBin and Google Drive
 app.delete("/api/images/:imageId", async (req, res) => {
