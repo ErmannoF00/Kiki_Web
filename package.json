@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "express-rate-limit": "^7.5.0",
-    "google-auth-library": "^9.15.1",
-    "googleapis": "^148.0.0",
-    "helmet": "^8.1.0"
-  }
-}
