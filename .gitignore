@@ -8,8 +8,5 @@ logs
 # Environment Variables
 .env
 
-# Package
-*.json
-
 # npm-debug files
 npm-debug.log*
